@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>行程日历</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.10/index.global.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.10/index.global.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/themes/light.css"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>行程日历</h1>
+      <button id="open-dialog" class="primary">新增行程</button>
+    </header>
+
+    <main>
+      <div id="calendar"></div>
+    </main>
+
+    <sl-dialog label="新增行程" id="event-dialog">
+      <form id="event-form" class="form-grid">
+        <input type="hidden" id="event-id" />
+        <label>
+          标题 *
+          <input type="text" id="title" maxlength="255" required />
+        </label>
+        <label>
+          分类
+          <input type="text" id="category" maxlength="50" placeholder="meeting / class / todo" />
+        </label>
+        <label>
+          地点
+          <input type="text" id="location" maxlength="255" />
+        </label>
+        <label>
+          开始时间 *
+          <input type="datetime-local" id="start_time" required />
+        </label>
+        <label>
+          结束时间 *
+          <input type="datetime-local" id="end_time" required />
+        </label>
+        <label>
+          提醒邮箱
+          <input type="email" id="reminder_email" placeholder="name@example.com" />
+        </label>
+        <label>
+          提前提醒（分钟）
+          <input type="number" id="reminder_minutes_before" min="0" max="10080" />
+        </label>
+        <label class="col-span">
+          备注
+          <textarea id="description" rows="3"></textarea>
+        </label>
+      </form>
+      <div class="dialog-footer" slot="footer">
+        <sl-button id="delete-button" variant="danger" outline hidden>删除</sl-button>
+        <div class="footer-actions">
+          <sl-button id="cancel-button" variant="default">取消</sl-button>
+          <sl-button id="submit-button" variant="primary">保存</sl-button>
+        </div>
+      </div>
+    </sl-dialog>
+
+    <template id="toast-template">
+      <sl-alert duration="2500" closable>
+        <sl-icon slot="icon" name="info-circle"></sl-icon>
+        <strong class="toast-title"></strong>
+        <div class="toast-message"></div>
+      </sl-alert>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/plugin/utc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/plugin/timezone.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.10/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.10/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.10/index.global.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/shoelace-autoloader.js"></script>
+    <script src="/static/js/app.js" type="module"></script>
+  </body>
+</html>

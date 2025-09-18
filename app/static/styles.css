@@ -1,0 +1,157 @@
+:root {
+  color-scheme: light dark;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #f5f5f5;
+  color: #1f2933;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--sl-color-neutral-0);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #4c6ef5, #6a8bff);
+  color: white;
+  box-shadow: 0 4px 20px rgba(76, 110, 245, 0.2);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+button.primary {
+  background-color: #ffffff;
+  color: #4c6ef5;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+button.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.6);
+}
+
+main {
+  padding: 1.5rem;
+}
+
+#calendar {
+  max-width: 1100px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.12);
+  padding: 1rem;
+}
+
+.list-delete-btn {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.list-delete-btn:hover {
+  text-decoration: underline;
+}
+
+.form-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #334155;
+  gap: 0.35rem;
+}
+
+.form-grid input,
+.form-grid textarea {
+  padding: 0.45rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5f5;
+  font-size: 0.95rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.col-span {
+  grid-column: span 2;
+}
+
+button.secondary {
+  margin-right: 0.5rem;
+  border: 1px solid #cbd5f5;
+  background-color: #f8fafc;
+  color: #1f2933;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button.danger {
+  border: none;
+  background-color: #ef4444;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dialog-footer sl-button::part(base) {
+  min-width: 80px;
+}
+
+@media (max-width: 720px) {
+  main {
+    padding: 1rem;
+  }
+
+  #calendar {
+    padding: 0.5rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .col-span {
+    grid-column: span 1;
+  }
+}
