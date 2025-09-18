@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
+from typing import Optional
 
-from sqlalchemy import Boolean, Column, Integer, String, Text
+from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime
 from sqlalchemy.sql import func
 from sqlalchemy.types import DateTime as SADateTime, TypeDecorator
 
@@ -47,6 +48,13 @@ class Event(Base):
     reminder_minutes_before = Column(Integer, nullable=True)
     reminder_email = Column(String(255), nullable=True)
     reminder_sent = Column(Boolean, nullable=False, default=False)
+    
+    # 新增：周期性事件字段
+    is_recurring = Column(Boolean, nullable=False, default=False)
+    recurrence_rule = Column(String(500), nullable=True)  # 存储RRULE字符串
+    recurrence_end_date = Column(UTCDateTime(), nullable=True)  # 重复结束日期
+    parent_event_id = Column(Integer, nullable=True)  # 父事件ID（用于重复事件）
+    
     created_at = Column(UTCDateTime(), nullable=False, server_default=func.now())
     updated_at = Column(UTCDateTime(), nullable=False, server_default=func.now(), onupdate=func.now())
 

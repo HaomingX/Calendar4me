@@ -4,3 +4,15 @@ __pycache__/
 *.pyd
 .env
 *.db
+# 项目特定文件
+data/courses_recurring.json
+*.log
+*.db-journal
+
+# 备份文件
+*_original.py
+*_backup.*
+
+# 临时文件
+*.tmp
+*.temp
