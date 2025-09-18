@@ -96,3 +96,64 @@ curl -X DELETE "http://127.0.0.1:8000/events/by-title?title=产品评审会议"
 - 数据库表会在应用启动时自动创建。
 - 若需扩展事件类型、引入队列或多用户支持，可在 `app/models.py` 中扩展模型并在 `app/crud.py` 中调整逻辑。
 - 目前的邮件发送使用同步 `smtplib`，通过 `asyncio.to_thread` 放入线程池；若需要更高吞吐量，可替换为异步邮件库或接入外部任务队列。
+
+## 部署到阿里云服务器（Nginx 反向代理）
+
+1. **准备服务器环境**（以 Ubuntu 为例）
+   ```bash
+   sudo apt update
+   sudo apt install -y python3 python3-venv python3-pip nginx git rsync
+   sudo ufw allow OpenSSH
+   sudo ufw allow 'Nginx Full'
+   sudo ufw enable   # 若尚未启用防火墙
+   ```
+
+2. **上传代码并初始化运行目录**
+   ```bash
+   sudo mkdir -p /opt/itinerary_app
+   sudo chown -R $USER:$USER /opt/itinerary_app
+   git clone <your-repo-url> /opt/itinerary_app
+   cd /opt/itinerary_app
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   cp .env.example .env  # 根据需要填写 SMTP、数据库等配置
+   ```
+
+3. **启动 Uvicorn 服务**
+   ```bash
+   cd /opt/itinerary_app
+   source .venv/bin/activate
+   uvicorn app.main:app --host 127.0.0.1 --port 8000
+   ```
+   - 为了让进程在退出 SSH 后继续运行，可使用 `tmux`/`screen` 或 `nohup`：
+     ```bash
+     nohup uvicorn app.main:app --host 127.0.0.1 --port 8000 >/var/log/itinerary.log 2>&1 &
+     ```
+
+4. **配置 Nginx**
+   - 将最简配置拷贝到 Nginx：
+     ```bash
+     sudo cp deploy/nginx.conf.simple /etc/nginx/sites-available/itinerary_app
+     sudo nano /etc/nginx/sites-available/itinerary_app  # 修改 server_name、静态目录等
+     ```
+   - 建立软链并重载 Nginx：
+     ```bash
+     sudo ln -s /etc/nginx/sites-available/itinerary_app /etc/nginx/sites-enabled/itinerary_app
+     sudo nginx -t
+     sudo systemctl reload nginx
+     ```
+
+5. **部署更新**
+   - 代码更新后执行：
+     ```bash
+     cd /opt/itinerary_app
+     git pull
+     source .venv/bin/activate
+     pip install -r requirements.txt
+     rsync -a app/static/ static/
+     sudo systemctl reload nginx  # 若修改了 Nginx 配置
+     ```
+
+完成上述步骤后，Nginx 会把公网 80 端口的请求转发到本机 8000 端口的 Uvicorn 服务，实现快速访问。
