@@ -5,11 +5,11 @@ from sqlalchemy import asc
 from sqlalchemy.orm import Session
 
 from . import models, schemas
-from .recurring_utils import (
-    generate_recurrence_dates, 
+from .utils import (
+    generate_recurrence_dates,
     create_rrule_string,
     parse_ical_rrule,
-    get_week_number
+    get_week_number,
 )
 
 
